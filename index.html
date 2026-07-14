@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>말씀의 씨앗 — 성경 요절 암송</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <h1 class="app-title">🌱 말씀의 씨앗</h1>
+      <p class="app-subtitle">마음 판에 새기는 성경 요절 암송</p>
+      <button id="btn-settings" class="icon-btn" title="설정 (API 키)">⚙️</button>
+    </div>
+    <nav class="tabs">
+      <button class="tab active" data-view="home">오늘의 말씀</button>
+      <button class="tab" data-view="browse">말씀 카드</button>
+      <button class="tab" data-view="memorize">암송 훈련</button>
+      <button class="tab" data-view="prayer">기도문</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ═══════════ 오늘의 말씀 ═══════════ -->
+    <section id="view-home" class="view active">
+      <div class="today-card" id="today-card">
+        <div class="today-label">오늘의 말씀</div>
+        <p class="today-text" id="today-text"></p>
+        <p class="today-ref" id="today-ref"></p>
+      </div>
+      <div class="today-actions">
+        <button class="btn primary" id="btn-today-memorize">이 말씀 암송하기</button>
+        <button class="btn" id="btn-today-prayer">이 말씀으로 기도하기</button>
+      </div>
+
+      <div class="progress-summary">
+        <h2 class="section-title">암송 진행 현황</h2>
+        <div id="progress-grid" class="progress-grid"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 말씀 카드 (주제별 탐색) ═══════════ -->
+    <section id="view-browse" class="view">
+      <div id="theme-chips" class="theme-chips"></div>
+      <div id="verse-list" class="verse-list"></div>
+    </section>
+
+    <!-- ═══════════ 암송 훈련 ═══════════ -->
+    <section id="view-memorize" class="view">
+      <div class="memorize-setup" id="memorize-setup">
+        <h2 class="section-title">암송할 말씀 선택</h2>
+        <select id="memo-theme-select" class="select"></select>
+        <select id="memo-verse-select" class="select"></select>
+        <div class="mode-buttons">
+          <button class="btn primary" data-mode="flashcard">📇 카드 뒤집기</button>
+          <button class="btn primary" data-mode="blanks">✏️ 빈칸 채우기</button>
+          <button class="btn primary" data-mode="typing">⌨️ 통째로 쓰기</button>
+        </div>
+      </div>
+
+      <div class="memorize-stage hidden" id="memorize-stage">
+        <button class="back-link" id="btn-memo-back">← 다른 말씀 선택</button>
+        <div id="memo-content"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 기도문 생성 ═══════════ -->
+    <section id="view-prayer" class="view">
+      <h2 class="section-title">말씀으로 드리는 기도</h2>
+      <p class="hint">요절을 선택하면 그 말씀에 담긴 하나님의 마음을 붙잡고 드리는 기도문을 만들어 드립니다.</p>
+      <select id="prayer-theme-select" class="select"></select>
+      <select id="prayer-verse-select" class="select"></select>
+      <div class="prayer-verse-preview" id="prayer-verse-preview"></div>
+      <textarea id="prayer-topic" class="textarea" rows="2"
+        placeholder="(선택) 함께 기도하고 싶은 제목이 있다면 적어주세요. 예: 가족의 구원, 선교지의 동역자들"></textarea>
+      <button class="btn primary" id="btn-generate-prayer">🙏 기도문 만들기</button>
+      <div id="prayer-result" class="prayer-result hidden">
+        <div class="prayer-text" id="prayer-text"></div>
+        <div class="row-actions">
+          <button class="btn" id="btn-copy-prayer">복사하기</button>
+        </div>
+      </div>
+      <div id="prayer-status" class="status-line"></div>
+    </section>
+  </main>
+
+  <!-- ═══════════ 말씀 카드 상세 모달 ═══════════ -->
+  <div class="modal-backdrop hidden" id="verse-modal">
+    <div class="modal">
+      <button class="modal-close" data-close="verse-modal">✕</button>
+      <div class="verse-detail">
+        <div class="verse-detail-image" id="verse-detail-image"></div>
+        <p class="verse-detail-text" id="verse-detail-text"></p>
+        <p class="verse-detail-ref" id="verse-detail-ref"></p>
+        <div class="row-actions">
+          <button class="btn" id="btn-detail-memorize">암송하기</button>
+          <button class="btn" id="btn-detail-prayer">기도문 만들기</button>
+          <button class="btn" id="btn-detail-image">🎨 말씀 카드 이미지 생성</button>
+        </div>
+        <div id="image-status" class="status-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 설정 모달 ═══════════ -->
+  <div class="modal-backdrop hidden" id="settings-modal">
+    <div class="modal">
+      <button class="modal-close" data-close="settings-modal">✕</button>
+      <h2 class="section-title">설정 — API 키</h2>
+      <p class="hint">API 키는 이 브라우저(localStorage)에만 저장되며 외부로 전송되지 않습니다. 각 API 호출 시에만 해당 서비스로 직접 전달됩니다.</p>
+
+      <label class="field-label">Anthropic API 키 <span class="field-note">(기도문 생성)</span></label>
+      <input type="password" id="input-anthropic-key" class="input" placeholder="sk-ant-...">
+      <p class="hint small"><a href="https://platform.claude.com/" target="_blank" rel="noopener">platform.claude.com</a>에서 발급받을 수 있습니다.</p>
+
+      <label class="field-label">Higgsfield API 키 <span class="field-note">(이미지 생성)</span></label>
+      <input type="password" id="input-hf-key" class="input" placeholder="hf-api-key">
+      <label class="field-label">Higgsfield API 시크릿</label>
+      <input type="password" id="input-hf-secret" class="input" placeholder="hf-secret">
+      <p class="hint small"><a href="https://higgsfield.ai/" target="_blank" rel="noopener">higgsfield.ai</a>에서 API 키와 시크릿을 발급받을 수 있습니다.</p>
+
+      <div class="row-actions">
+        <button class="btn primary" id="btn-save-settings">저장</button>
+      </div>
+      <div id="settings-status" class="status-line"></div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    성경 본문: 개역한글판 · 말씀의 씨앗
+  </footer>
+
+  <script src="verses.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

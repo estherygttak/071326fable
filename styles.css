@@ -1,0 +1,423 @@
+/* ─────────────────────────────────────────────
+   말씀의 씨앗 — 성경 요절 암송 앱
+   ───────────────────────────────────────────── */
+:root {
+  --bg: #f7f3ea;
+  --card: #fffdf8;
+  --ink: #2e2a24;
+  --ink-soft: #6b6255;
+  --accent: #b5543b;
+  --accent-soft: #e8d5cd;
+  --line: #e3dbcc;
+  --shadow: 0 2px 12px rgba(80, 60, 30, 0.08);
+  --radius: 14px;
+  --serif: "Noto Serif KR", "Nanum Myeongjo", serif;
+  --sans: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+/* ── 헤더 ── */
+.app-header {
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 22px 16px 8px;
+  position: relative;
+  text-align: center;
+}
+.app-title {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.app-subtitle {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+.icon-btn {
+  position: absolute;
+  right: 16px;
+  top: 22px;
+  font-size: 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.75;
+}
+.icon-btn:hover { opacity: 1; }
+
+.tabs {
+  max-width: 720px;
+  margin: 10px auto 0;
+  display: flex;
+  overflow-x: auto;
+}
+.tab {
+  flex: 1;
+  padding: 11px 8px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 700;
+}
+
+/* ── 뷰 전환 ── */
+.view { display: none; }
+.view.active { display: block; animation: fadein 0.25s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+.hidden { display: none !important; }
+
+/* ── 공통 요소 ── */
+.section-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 26px 0 10px;
+}
+.hint { color: var(--ink-soft); font-size: 0.88rem; margin-bottom: 12px; }
+.hint.small { font-size: 0.78rem; margin: 4px 0 14px; }
+.hint a { color: var(--accent); }
+
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.btn.primary:hover { filter: brightness(1.08); color: #fff; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.select, .input, .textarea {
+  width: 100%;
+  padding: 11px 14px;
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.select:focus, .input:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.textarea { resize: vertical; }
+
+.field-label { display: block; font-weight: 700; font-size: 0.9rem; margin: 14px 0 6px; }
+.field-note { font-weight: 400; color: var(--ink-soft); font-size: 0.82rem; }
+
+.row-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.status-line { margin-top: 12px; font-size: 0.88rem; color: var(--ink-soft); white-space: pre-line; }
+.status-line.error { color: #a33; }
+.status-line.ok { color: #3a7a3a; }
+
+.back-link {
+  background: none; border: none; cursor: pointer;
+  color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 14px;
+}
+.back-link:hover { color: var(--accent); }
+
+/* ── 오늘의 말씀 ── */
+.today-card {
+  margin-top: 18px;
+  background: linear-gradient(160deg, #fffdf8 0%, #f4e9d8 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 38px 28px;
+  text-align: center;
+}
+.today-label {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  border: 1px solid var(--accent-soft);
+  border-radius: 999px;
+  padding: 3px 14px;
+  margin-bottom: 18px;
+  background: rgba(255,255,255,0.6);
+}
+.today-text {
+  font-family: var(--serif);
+  font-size: 1.28rem;
+  font-weight: 600;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+.today-ref {
+  margin-top: 16px;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+.today-actions {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.progress-cell {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.progress-cell .p-name { font-size: 0.85rem; font-weight: 700; }
+.progress-cell .p-count { font-size: 0.8rem; color: var(--ink-soft); margin-top: 2px; }
+.progress-bar {
+  height: 6px; border-radius: 3px; background: #eee5d5; margin-top: 8px; overflow: hidden;
+}
+.progress-bar > div { height: 100%; border-radius: 3px; }
+
+/* ── 말씀 카드 목록 ── */
+.theme-chips {
+  display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 16px;
+}
+.chip {
+  padding: 7px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.verse-list { display: flex; flex-direction: column; gap: 10px; }
+.verse-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease;
+}
+.verse-card:hover { box-shadow: var(--shadow); }
+.verse-card .v-text {
+  font-family: var(--serif);
+  font-size: 1.0rem;
+  word-break: keep-all;
+}
+.verse-card .v-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 8px;
+}
+.verse-card .v-ref { font-size: 0.85rem; color: var(--ink-soft); font-weight: 500; }
+.verse-card .v-level { font-size: 0.8rem; }
+
+/* ── 암송 훈련 ── */
+.mode-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+
+.flashcard {
+  perspective: 1200px;
+  margin-top: 8px;
+}
+.flashcard-inner {
+  position: relative;
+  min-height: 260px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flash-face {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 30px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  backface-visibility: hidden;
+  text-align: center;
+}
+.flash-face.back { transform: rotateY(180deg); }
+.flash-ref { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; }
+.flash-hint { color: var(--ink-soft); font-size: 0.85rem; margin-top: 14px; }
+.flash-text {
+  font-family: var(--serif); font-size: 1.1rem; line-height: 1.9; word-break: keep-all;
+}
+.flash-actions { display: flex; gap: 10px; justify-content: center; margin-top: 18px; }
+
+.blank-stage { margin-top: 8px; }
+.blank-level-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.blank-verse {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px;
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  line-height: 2.1;
+  word-break: keep-all;
+}
+.blank-word {
+  display: inline-block;
+  min-width: 2.2em;
+  border-bottom: 2px solid var(--accent);
+  color: transparent;
+  background: var(--accent-soft);
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.blank-word.revealed { color: var(--accent); background: transparent; }
+.blank-ref { text-align: right; color: var(--ink-soft); font-size: 0.9rem; margin-top: 12px; font-family: var(--sans); }
+
+.typing-stage { margin-top: 8px; }
+.typing-target {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-family: var(--serif);
+  word-break: keep-all;
+  margin-bottom: 12px;
+}
+.typing-result { margin-top: 14px; font-size: 1.05rem; line-height: 2; word-break: keep-all; font-family: var(--serif); }
+.typing-result .ok { color: #3a7a3a; }
+.typing-result .miss { color: #b03030; text-decoration: underline wavy #b03030; }
+.accuracy-badge {
+  display: inline-block; margin-top: 10px;
+  padding: 4px 14px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent); font-weight: 700;
+}
+
+/* ── 기도문 ── */
+.prayer-verse-preview {
+  background: var(--card);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  word-break: keep-all;
+}
+.prayer-result {
+  margin-top: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px;
+}
+.prayer-text {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  line-height: 2;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+/* ── 모달 ── */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(40, 30, 15, 0.45);
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px;
+  z-index: 50;
+}
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+.modal .section-title { margin-top: 0; }
+.modal-close {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none; font-size: 1.1rem; cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.verse-detail { text-align: center; }
+.verse-detail-image { margin-bottom: 16px; }
+.verse-detail-image img {
+  width: 100%; border-radius: 10px; display: block;
+}
+.verse-detail-text {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+.verse-detail-ref { margin-top: 12px; color: var(--ink-soft); }
+.verse-detail .row-actions { justify-content: center; }
+
+/* ── 푸터 ── */
+.app-footer {
+  text-align: center;
+  padding: 18px;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 480px) {
+  .today-text { font-size: 1.1rem; }
+  .tab { font-size: 0.84rem; padding: 10px 4px; }
+}
