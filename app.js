@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────
-   말씀의 씨앗 — 앱 로직
+   Seed of the Word — app logic
    ───────────────────────────────────────────── */
 
-// ══════════ 저장소 ══════════
+// ══════════ Storage ══════════
 const STORE_KEYS = {
   settings: "seed.settings",
   progress: "seed.progress",
@@ -28,7 +28,7 @@ let settings = loadJSON(STORE_KEYS.settings, {
 // progress[verseId] = { level: 0~3, reviews: n, lastReviewed: iso }
 let progress = loadJSON(STORE_KEYS.progress, {});
 
-const LEVEL_LABELS = ["🌰 씨앗", "🌱 새싹", "🌿 자람", "🌳 열매"];
+const LEVEL_LABELS = ["🌰 Seed", "🌱 Sprout", "🌿 Growing", "🌳 Fruit"];
 
 function getLevel(verseId) {
   return progress[verseId]?.level ?? 0;
@@ -46,11 +46,15 @@ function bumpLevel(verseId, delta) {
 function verseById(id) {
   return VERSES.find((v) => v.id === id);
 }
+// Wrap in curly quotes unless the text already opens with a quotation mark
+function quoted(text) {
+  return /^[“"']/.test(text) ? text : `“${text}”`;
+}
 function themeById(id) {
   return THEMES.find((t) => t.id === id);
 }
 
-// ══════════ 탭 전환 ══════════
+// ══════════ Tab navigation ══════════
 const tabs = document.querySelectorAll(".tab");
 function switchView(name) {
   tabs.forEach((t) => t.classList.toggle("active", t.dataset.view === name));
@@ -60,7 +64,7 @@ function switchView(name) {
 }
 tabs.forEach((t) => t.addEventListener("click", () => switchView(t.dataset.view)));
 
-// ══════════ 오늘의 말씀 ══════════
+// ══════════ Today's verse ══════════
 function todayVerse() {
   const now = new Date();
   const dayIndex = Math.floor(
@@ -71,8 +75,8 @@ function todayVerse() {
 
 function renderToday() {
   const v = todayVerse();
-  document.getElementById("today-text").textContent = `“${v.text}”`;
-  document.getElementById("today-ref").textContent = `${v.ref} (개역한글)`;
+  document.getElementById("today-text").textContent = quoted(v.text);
+  document.getElementById("today-ref").textContent = `${v.ref} (${BIBLE_VERSION})`;
   document.getElementById("btn-today-memorize").onclick = () => {
     openMemorize(v.id);
   };
@@ -92,14 +96,14 @@ function renderProgress() {
     cell.className = "progress-cell";
     cell.innerHTML = `
       <div class="p-name">${theme.emoji} ${theme.name}</div>
-      <div class="p-count">${done} / ${verses.length} 구절 열매 맺음</div>
+      <div class="p-count">${done} / ${verses.length} verses bearing fruit</div>
       <div class="progress-bar"><div style="width:${pct}%;background:${theme.color}"></div></div>
     `;
     grid.appendChild(cell);
   });
 }
 
-// ══════════ 말씀 카드 (탐색) ══════════
+// ══════════ Verse cards (browse) ══════════
 let activeTheme = "all";
 
 function renderThemeChips() {
@@ -107,7 +111,7 @@ function renderThemeChips() {
   wrap.innerHTML = "";
   const all = document.createElement("button");
   all.className = "chip" + (activeTheme === "all" ? " active" : "");
-  all.textContent = "전체";
+  all.textContent = "All";
   all.onclick = () => { activeTheme = "all"; renderThemeChips(); renderVerseList(); };
   wrap.appendChild(all);
   THEMES.forEach((t) => {
@@ -141,14 +145,14 @@ function renderVerseList() {
   );
 }
 
-// ══════════ 말씀 상세 모달 ══════════
+// ══════════ Verse detail modal ══════════
 let detailVerseId = null;
 
 function openVerseDetail(verseId) {
   detailVerseId = verseId;
   const v = verseById(verseId);
-  document.getElementById("verse-detail-text").textContent = `“${v.text}”`;
-  document.getElementById("verse-detail-ref").textContent = `${v.ref} (개역한글)`;
+  document.getElementById("verse-detail-text").textContent = quoted(v.text);
+  document.getElementById("verse-detail-ref").textContent = `${v.ref} (${BIBLE_VERSION})`;
   document.getElementById("verse-detail-image").innerHTML = "";
   setStatus("image-status", "");
   document.getElementById("verse-modal").classList.remove("hidden");
@@ -166,7 +170,7 @@ document.getElementById("btn-detail-image").onclick = () => {
   generateVerseImage(detailVerseId);
 };
 
-// ══════════ 모달 공통 ══════════
+// ══════════ Modal helpers ══════════
 function closeModal(id) {
   document.getElementById(id).classList.add("hidden");
 }
@@ -185,7 +189,7 @@ function setStatus(id, msg, kind) {
   el.className = "status-line" + (kind ? ` ${kind}` : "");
 }
 
-// ══════════ 암송 훈련 ══════════
+// ══════════ Memorize ══════════
 const memoThemeSelect = document.getElementById("memo-theme-select");
 const memoVerseSelect = document.getElementById("memo-verse-select");
 
@@ -204,7 +208,7 @@ function fillVerseSelect(selectEl, themeId) {
   VERSES.filter((v) => v.theme === themeId).forEach((v) => {
     const opt = document.createElement("option");
     opt.value = v.id;
-    opt.textContent = `${v.ref} — ${v.text.slice(0, 22)}…`;
+    opt.textContent = `${v.ref} — ${v.text.slice(0, 40)}…`;
     selectEl.appendChild(opt);
   });
 }
@@ -243,7 +247,7 @@ function startMemorize(verseId, mode) {
   else renderTyping(content, verseId);
 }
 
-// ── 카드 뒤집기 ──
+// ── Flashcard ──
 function renderFlashcard(root, verseId) {
   const v = verseById(verseId);
   root.innerHTML = `
@@ -251,16 +255,16 @@ function renderFlashcard(root, verseId) {
       <div class="flashcard-inner">
         <div class="flash-face front">
           <div class="flash-ref">${v.ref}</div>
-          <div class="flash-hint">마음속으로 말씀을 암송해 보고, 카드를 눌러 확인하세요</div>
+          <div class="flash-hint">Recite the verse from memory, then tap the card to check</div>
         </div>
         <div class="flash-face back">
-          <div class="flash-text">“${v.text}”</div>
+          <div class="flash-text">${quoted(v.text)}</div>
         </div>
       </div>
     </div>
     <div class="flash-actions">
-      <button class="btn" id="fc-again">🔁 다시 볼게요</button>
-      <button class="btn primary" id="fc-good">✅ 잘 외웠어요</button>
+      <button class="btn" id="fc-again">🔁 Needs more practice</button>
+      <button class="btn primary" id="fc-good">✅ I got it!</button>
     </div>
   `;
   const card = document.getElementById("flashcard");
@@ -272,26 +276,26 @@ function renderFlashcard(root, verseId) {
   document.getElementById("fc-good").onclick = () => {
     bumpLevel(verseId, 1);
     card.classList.remove("flipped");
-    setTimeout(() => alert(`${LEVEL_LABELS[getLevel(verseId)]} 단계가 되었습니다!`), 300);
+    setTimeout(() => alert(`You've reached the ${LEVEL_LABELS[getLevel(verseId)]} stage!`), 300);
   };
 }
 
-// ── 빈칸 채우기 ──
+// ── Fill in the blanks ──
 function renderBlanks(root, verseId) {
   const v = verseById(verseId);
   root.innerHTML = `
     <div class="blank-stage">
       <div class="blank-level-row">
-        <button class="btn" data-ratio="0.3">1단계 (30%)</button>
-        <button class="btn" data-ratio="0.6">2단계 (60%)</button>
-        <button class="btn" data-ratio="1">3단계 (전체)</button>
+        <button class="btn" data-ratio="0.3">Level 1 (30%)</button>
+        <button class="btn" data-ratio="0.6">Level 2 (60%)</button>
+        <button class="btn" data-ratio="1">Level 3 (all)</button>
       </div>
       <div class="blank-verse" id="blank-verse"></div>
       <div class="blank-ref">${v.ref}</div>
       <div class="flash-actions">
-        <button class="btn primary" id="blank-done">✅ 다 외웠어요</button>
+        <button class="btn primary" id="blank-done">✅ I've got it memorized</button>
       </div>
-      <p class="hint" style="margin-top:12px">빈칸을 누르면 그 단어가 보입니다. 보지 않고 암송해 보세요!</p>
+      <p class="hint" style="margin-top:12px">Tap a blank to reveal the word. Try reciting without peeking!</p>
     </div>
   `;
 
@@ -299,7 +303,7 @@ function renderBlanks(root, verseId) {
     const words = v.text.split(" ");
     const container = document.getElementById("blank-verse");
     container.innerHTML = "";
-    // 어절 인덱스를 섞어 ratio 비율만큼 가리기
+    // Shuffle word indexes and hide the requested share of them
     const idxs = words.map((_, i) => i);
     for (let i = idxs.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -326,25 +330,25 @@ function renderBlanks(root, verseId) {
   });
   document.getElementById("blank-done").onclick = () => {
     bumpLevel(verseId, 1);
-    alert(`${LEVEL_LABELS[getLevel(verseId)]} 단계가 되었습니다!`);
+    alert(`You've reached the ${LEVEL_LABELS[getLevel(verseId)]} stage!`);
   };
   build(0.3);
 }
 
-// ── 통째로 쓰기 ──
+// ── Type it out ──
 function renderTyping(root, verseId) {
   const v = verseById(verseId);
   root.innerHTML = `
     <div class="typing-stage">
       <div class="typing-target">
-        <strong>${v.ref}</strong> 말씀을 기억나는 대로 입력해 보세요.
+        Type <strong>${v.ref}</strong> from memory.
         <label style="display:block;margin-top:8px;font-size:0.85rem;color:var(--ink-soft)">
-          <input type="checkbox" id="typing-peek"> 본문 살짝 보기
+          <input type="checkbox" id="typing-peek"> Peek at the verse
         </label>
-        <div id="typing-peek-text" class="hidden" style="margin-top:8px;color:var(--ink-soft)">“${v.text}”</div>
+        <div id="typing-peek-text" class="hidden" style="margin-top:8px;color:var(--ink-soft)">${quoted(v.text)}</div>
       </div>
-      <textarea class="textarea" id="typing-input" rows="4" placeholder="말씀을 입력하세요..."></textarea>
-      <button class="btn primary" id="typing-check">채점하기</button>
+      <textarea class="textarea" id="typing-input" rows="4" placeholder="Type the verse here..."></textarea>
+      <button class="btn primary" id="typing-check">Check my answer</button>
       <div class="typing-result" id="typing-result"></div>
     </div>
   `;
@@ -359,12 +363,12 @@ function renderTyping(root, verseId) {
     const box = document.getElementById("typing-result");
     box.innerHTML =
       result.html +
-      `<div><span class="accuracy-badge">정확도 ${result.accuracy}%</span></div>`;
+      `<div><span class="accuracy-badge">Accuracy ${result.accuracy}%</span></div>`;
     if (result.accuracy >= 90) {
       bumpLevel(verseId, 1);
-      box.innerHTML += `<p class="hint" style="margin-top:8px">🎉 훌륭해요! ${LEVEL_LABELS[getLevel(verseId)]} 단계가 되었습니다.</p>`;
+      box.innerHTML += `<p class="hint" style="margin-top:8px">🎉 Wonderful! You've reached the ${LEVEL_LABELS[getLevel(verseId)]} stage.</p>`;
     } else if (result.accuracy < 60) {
-      box.innerHTML += `<p class="hint" style="margin-top:8px">조금 더 연습해 볼까요? 빈칸 채우기부터 시작해 보세요.</p>`;
+      box.innerHTML += `<p class="hint" style="margin-top:8px">Keep practicing — try starting with Fill in the Blanks.</p>`;
     }
   };
 }
@@ -373,7 +377,7 @@ function escapeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-// 어절 단위 비교 채점
+// Word-by-word grading (case- and punctuation-insensitive)
 function gradeTyping(target, input) {
   const tWords = target.split(/\s+/);
   const iWords = input ? input.split(/\s+/) : [];
@@ -388,10 +392,10 @@ function gradeTyping(target, input) {
   return { html: `<p>${parts.join(" ")}</p>`, accuracy };
 }
 function normalize(w) {
-  return w.replace(/[.,!?'"“”‘’]/g, "");
+  return w.toLowerCase().replace(/[.,!?;:'"“”‘’()—–-]/g, "");
 }
 
-// ══════════ 기도문 생성 (Claude API) ══════════
+// ══════════ Prayer writing (Claude API) ══════════
 const prayerThemeSelect = document.getElementById("prayer-theme-select");
 const prayerVerseSelect = document.getElementById("prayer-verse-select");
 
@@ -406,7 +410,7 @@ prayerVerseSelect.onchange = renderPrayerPreview;
 function renderPrayerPreview() {
   const v = verseById(prayerVerseSelect.value);
   document.getElementById("prayer-verse-preview").textContent = v
-    ? `“${v.text}” — ${v.ref}`
+    ? `${quoted(v.text)} — ${v.ref}`
     : "";
 }
 
@@ -424,7 +428,7 @@ document.getElementById("btn-generate-prayer").onclick = generatePrayer;
 async function generatePrayer() {
   const key = settings.anthropicKey;
   if (!key) {
-    setStatus("prayer-status", "먼저 설정(⚙️)에서 Anthropic API 키를 입력해 주세요.", "error");
+    setStatus("prayer-status", "Please enter your Anthropic API key in Settings (⚙️) first.", "error");
     openSettings();
     return;
   }
@@ -434,28 +438,28 @@ async function generatePrayer() {
   const btn = document.getElementById("btn-generate-prayer");
 
   btn.disabled = true;
-  setStatus("prayer-status", "기도문을 준비하고 있습니다...");
+  setStatus("prayer-status", "Preparing your prayer...");
   document.getElementById("prayer-result").classList.add("hidden");
 
   const system = [
-    "당신은 한국 교회의 성도들이 성경 말씀을 붙잡고 기도하도록 돕는 경건한 기도 동역자입니다.",
-    "주어진 성경 요절(개역한글판)에 담긴 하나님의 속성과 약속을 깊이 묵상한 기도문을 한국어로 작성하세요.",
-    "규칙:",
-    "- 말씀의 구절이나 표현을 기도문 안에 자연스럽게 인용하여, 암송에도 도움이 되게 하세요.",
-    "- 찬양(하나님의 속성 높임) → 말씀 묵상과 감사 → 간구 → 결단의 흐름으로 작성하세요.",
-    "- 분량은 250~400자 내외, 문단은 2~4개로 나누세요.",
-    "- 마지막은 '예수님의 이름으로 기도합니다. 아멘.'으로 맺으세요.",
-    "- 따뜻하고 진실한 어조로, 과장되거나 상투적인 표현은 피하세요.",
-    "- 기도문 본문만 출력하고 다른 설명은 붙이지 마세요.",
+    "You are a devoted prayer companion helping believers pray Scripture back to God.",
+    "Write a prayer in English that deeply meditates on the character of God and the promises found in the given Bible verse (NIV).",
+    "Rules:",
+    "- Weave phrases from the verse naturally into the prayer, so it also helps with memorization.",
+    "- Follow this flow: adoration (exalting God's character) → meditating on the verse with thanksgiving → petition → commitment.",
+    "- Keep it around 150-220 words, in 2-4 short paragraphs.",
+    "- Close with: \"In Jesus' name I pray, Amen.\"",
+    "- Use a warm, sincere tone. Avoid clichés and exaggeration.",
+    "- Output only the prayer itself, with no extra commentary.",
   ].join("\n");
 
   const userMsg = [
-    `주제: ${theme.name} — ${theme.description}`,
-    `요절: ${v.ref}`,
-    `본문: "${v.text}"`,
-    topic ? `함께 기도할 제목: ${topic}` : "",
+    `Theme: ${theme.name} — ${theme.description}`,
+    `Verse: ${v.ref}`,
+    `Text: "${v.text}"`,
+    topic ? `Also praying for: ${topic}` : "",
     "",
-    "이 말씀으로 기도문을 작성해 주세요.",
+    "Please write a prayer based on this verse.",
   ].filter(Boolean).join("\n");
 
   try {
@@ -480,21 +484,21 @@ async function generatePrayer() {
       const msg = err?.error?.message || `HTTP ${res.status}`;
       throw new Error(
         res.status === 401
-          ? "API 키가 올바르지 않습니다. 설정에서 다시 확인해 주세요."
-          : `API 오류: ${msg}`
+          ? "Your API key appears to be invalid. Please check it in Settings."
+          : `API error: ${msg}`
       );
     }
 
     const data = await res.json();
     if (data.stop_reason === "refusal") {
-      throw new Error("요청이 처리되지 않았습니다. 다시 시도해 주세요.");
+      throw new Error("The request could not be completed. Please try again.");
     }
     const text = (data.content || [])
       .filter((b) => b.type === "text")
       .map((b) => b.text)
       .join("\n")
       .trim();
-    if (!text) throw new Error("기도문이 생성되지 않았습니다. 다시 시도해 주세요.");
+    if (!text) throw new Error("No prayer was generated. Please try again.");
 
     document.getElementById("prayer-text").textContent = text;
     document.getElementById("prayer-result").classList.remove("hidden");
@@ -504,7 +508,7 @@ async function generatePrayer() {
     setStatus(
       "prayer-status",
       isNetwork
-        ? "네트워크 오류가 발생했습니다. 인터넷 연결을 확인해 주세요."
+        ? "A network error occurred. Please check your internet connection."
         : e.message,
       "error"
     );
@@ -517,18 +521,18 @@ document.getElementById("btn-copy-prayer").onclick = async () => {
   const text = document.getElementById("prayer-text").textContent;
   try {
     await navigator.clipboard.writeText(text);
-    setStatus("prayer-status", "기도문이 복사되었습니다.", "ok");
+    setStatus("prayer-status", "Prayer copied to clipboard.", "ok");
   } catch {
-    setStatus("prayer-status", "복사에 실패했습니다. 직접 선택하여 복사해 주세요.", "error");
+    setStatus("prayer-status", "Copy failed. Please select and copy the text manually.", "error");
   }
 };
 
-// ══════════ 말씀 카드 이미지 생성 (Higgsfield) ══════════
+// ══════════ Verse card image (Higgsfield) ══════════
 const HF_BASE = "https://platform.higgsfield.ai";
 
 async function generateVerseImage(verseId) {
   if (!settings.hfKey || !settings.hfSecret) {
-    setStatus("image-status", "먼저 설정(⚙️)에서 Higgsfield API 키와 시크릿을 입력해 주세요.", "error");
+    setStatus("image-status", "Please enter your Higgsfield API key and secret in Settings (⚙️) first.", "error");
     return;
   }
   const v = verseById(verseId);
@@ -536,7 +540,7 @@ async function generateVerseImage(verseId) {
   const btn = document.getElementById("btn-detail-image");
   btn.disabled = true;
 
-  // 주제별 이미지 분위기
+  // Per-theme visual mood
   const moods = {
     gospel: "a rugged wooden cross on a hill at golden sunrise, rays of warm light breaking through clouds, hopeful and reverent",
     immanuel: "a peaceful shepherd's meadow with soft morning mist, gentle stream, warm sunlight through trees, serene and comforting",
@@ -552,7 +556,7 @@ async function generateVerseImage(verseId) {
   };
 
   try {
-    setStatus("image-status", "이미지 생성을 요청하고 있습니다...");
+    setStatus("image-status", "Requesting image generation...");
     const res = await fetch(`${HF_BASE}/v1/text2image/soul`, {
       method: "POST",
       headers,
@@ -569,29 +573,29 @@ async function generateVerseImage(verseId) {
       const errText = await res.text().catch(() => "");
       throw new Error(
         res.status === 401 || res.status === 403
-          ? "Higgsfield API 키/시크릿이 올바르지 않습니다."
-          : `Higgsfield API 오류 (HTTP ${res.status}) ${errText.slice(0, 120)}`
+          ? "Your Higgsfield API key/secret appears to be invalid."
+          : `Higgsfield API error (HTTP ${res.status}) ${errText.slice(0, 120)}`
       );
     }
     const jobSet = await res.json();
     const jobSetId = jobSet.id;
-    if (!jobSetId) throw new Error("작업 ID를 받지 못했습니다.");
+    if (!jobSetId) throw new Error("No job ID was returned.");
 
-    // 폴링 (3초 간격, 최대 3분)
+    // Poll every 3 s, up to 3 min
     const deadline = Date.now() + 180000;
     let imageUrl = null;
     while (Date.now() < deadline) {
-      setStatus("image-status", "이미지를 그리는 중입니다... (최대 1~2분 소요)");
+      setStatus("image-status", "Painting your image... (this can take 1-2 minutes)");
       await new Promise((r) => setTimeout(r, 3000));
       const poll = await fetch(`${HF_BASE}/v1/job-sets/${jobSetId}`, { headers });
       if (!poll.ok) continue;
       const data = await poll.json();
       const jobs = data.jobs || [];
       if (jobs.some((j) => j.status === "failed" || j.status === "canceled")) {
-        throw new Error("이미지 생성에 실패했습니다. 다시 시도해 주세요.");
+        throw new Error("Image generation failed. Please try again.");
       }
       if (jobs.some((j) => j.status === "nsfw")) {
-        throw new Error("이미지가 콘텐츠 정책에 의해 거부되었습니다.");
+        throw new Error("The image was rejected by the content policy.");
       }
       const done = jobs.find((j) => j.status === "completed" && j.results);
       if (done) {
@@ -599,30 +603,30 @@ async function generateVerseImage(verseId) {
         break;
       }
     }
-    if (!imageUrl) throw new Error("시간 내에 이미지가 완성되지 않았습니다. 잠시 후 다시 시도해 주세요.");
+    if (!imageUrl) throw new Error("The image didn't finish in time. Please try again in a moment.");
 
     const wrap = document.getElementById("verse-detail-image");
     wrap.innerHTML = "";
     const img = document.createElement("img");
     img.src = imageUrl;
-    img.alt = `${v.ref} 말씀 카드 배경`;
+    img.alt = `Background image for ${v.ref}`;
     wrap.appendChild(img);
     const link = document.createElement("a");
     link.href = imageUrl;
     link.target = "_blank";
     link.rel = "noopener";
-    link.textContent = "원본 이미지 열기 ↗";
+    link.textContent = "Open full image ↗";
     link.className = "hint small";
     link.style.display = "inline-block";
     link.style.marginTop = "6px";
     wrap.appendChild(link);
-    setStatus("image-status", "이미지가 완성되었습니다. (결과 링크는 1시간 후 만료됩니다)", "ok");
+    setStatus("image-status", "Your image is ready! (The link expires in about 1 hour.)", "ok");
   } catch (e) {
     const isNetwork = e instanceof TypeError;
     setStatus(
       "image-status",
       isNetwork
-        ? "Higgsfield API에 연결하지 못했습니다.\n브라우저 보안 정책(CORS)으로 직접 호출이 차단되었을 수 있습니다. README의 안내를 참고해 주세요."
+        ? "Could not reach the Higgsfield API.\nYour browser's security policy (CORS) may be blocking direct calls — see the README for a workaround."
         : e.message,
       "error"
     );
@@ -631,7 +635,7 @@ async function generateVerseImage(verseId) {
   }
 }
 
-// ══════════ 설정 ══════════
+// ══════════ Settings ══════════
 function openSettings() {
   document.getElementById("input-anthropic-key").value = settings.anthropicKey || "";
   document.getElementById("input-hf-key").value = settings.hfKey || "";
@@ -648,11 +652,11 @@ document.getElementById("btn-save-settings").onclick = () => {
     hfSecret: document.getElementById("input-hf-secret").value.trim(),
   };
   saveJSON(STORE_KEYS.settings, settings);
-  setStatus("settings-status", "저장되었습니다.", "ok");
+  setStatus("settings-status", "Saved.", "ok");
   setTimeout(() => closeModal("settings-modal"), 700);
 };
 
-// ══════════ 초기화 ══════════
+// ══════════ Init ══════════
 renderToday();
 renderProgress();
 renderThemeChips();

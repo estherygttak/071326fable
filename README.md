@@ -1,81 +1,86 @@
-# 🌱 말씀의 씨앗 — 성경 요절 암송 앱
+# 🌱 Seed of the Word — Scripture Memory App
 
-복음, 함께하시는 하나님(임마누엘), 기도에 응답하시는 신실하신 하나님, 세계복음화 —
-네 가지 주제의 성경 요절을 마음 판에 새기도록 돕는 웹앱입니다.
+A web app that helps you hide God's Word in your heart, built around four themes:
+**The Gospel**, **God With Us (Immanuel)**, **The Faithful God Who Answers Prayer**, and **World Evangelization**.
 
-성경 본문은 저작권이 만료된 **개역한글판**을 사용합니다.
+Scripture text is from the **New International Version (NIV)**.
 
-## 주요 기능
+## Features
 
-| 기능 | 설명 |
+| Feature | Description |
 |---|---|
-| 오늘의 말씀 | 날짜에 따라 매일 다른 요절을 보여줍니다 |
-| 말씀 카드 | 4개 주제 × 총 37구절을 주제별로 탐색 |
-| 암송 훈련 | 카드 뒤집기 · 빈칸 채우기(3단계) · 통째로 쓰기(자동 채점) |
-| 진행 현황 | 구절별 암송 단계(씨앗→새싹→자람→열매)를 브라우저에 저장 |
-| 기도문 생성 | 선택한 요절을 묵상한 기도문을 Claude API로 생성 |
-| 말씀 카드 이미지 | Higgsfield(Soul 모델)로 요절 카드 배경 이미지 생성 |
+| Today's Verse | A different verse for each day of the year |
+| Verse Cards | Browse 37 verses across the 4 themes |
+| Memorize | Flashcard · Fill in the Blanks (3 levels) · Type It Out (auto-graded) |
+| Progress | Each verse grows through Seed → Sprout → Growing → Fruit stages, saved in your browser |
+| Prayer | Generates a prayer that meditates on the selected verse, via the Claude API |
+| Card Images | Generates devotional background art for a verse with Higgsfield (Soul model) |
 
-## 실행 방법
+## Running the app
 
-정적 웹앱이라 별도 빌드가 필요 없습니다.
+It's a static web app — no build step required.
 
 ```bash
-# 방법 1: 파일 직접 열기
+# Option 1: open the file directly
 open index.html
 
-# 방법 2: 로컬 서버 (권장)
+# Option 2: local server (recommended)
 npx serve .
-# 또는
+# or
 python3 -m http.server 8000
 ```
 
-## API 키 설정
+## API keys
 
-앱 우측 상단 **⚙️ 설정** 버튼에서 입력합니다.
-키는 사용자의 브라우저 `localStorage`에만 저장되며, 해당 API 호출 시에만 각 서비스로 직접 전송됩니다.
+Enter your keys via the **⚙️ Settings** button in the top-right corner.
+Keys are stored only in your browser's `localStorage` and sent directly to each service only when that feature is used.
 
-| 키 | 용도 | 발급처 |
+| Key | Used for | Where to get it |
 |---|---|---|
-| Anthropic API 키 | 기도문 생성 | https://platform.claude.com/ |
-| Higgsfield API 키 + 시크릿 | 이미지 생성 | https://higgsfield.ai/ |
+| Anthropic API key | Prayer writing | https://platform.claude.com/ |
+| Higgsfield API key + secret | Image generation | https://higgsfield.ai/ |
 
-## 사용하는 API
+## APIs used
 
-### 기도문 생성 — Anthropic Messages API
+### Prayer writing — Anthropic Messages API
 
-브라우저에서 직접 호출합니다 (`anthropic-dangerous-direct-browser-access: true` 헤더 사용).
-모델: `claude-opus-4-8`
+Called directly from the browser (with the `anthropic-dangerous-direct-browser-access: true` header).
+Model: `claude-opus-4-8`
 
-### 이미지 생성 — Higgsfield Soul
+### Image generation — Higgsfield Soul
 
 ```
 POST https://platform.higgsfield.ai/v1/text2image/soul
-헤더: hf-api-key, hf-secret
-바디: { "params": { "prompt", "width_and_height", "quality", "batch_size" } }
+Headers: hf-api-key, hf-secret
+Body: { "params": { "prompt", "width_and_height", "quality", "batch_size" } }
 ```
 
-생성 요청 후 `GET /v1/job-sets/{id}`를 폴링하여 완료되면 이미지 URL을 표시합니다.
-결과 이미지 링크는 약 1시간 후 만료되므로, 보관하려면 다운로드하세요.
+After submitting, the app polls `GET /v1/job-sets/{id}` and shows the image when it's ready.
+Result links expire after about 1 hour, so download the image if you want to keep it.
 
-> **CORS 안내**: Higgsfield API가 브라우저 직접 호출(CORS)을 허용하지 않는 경우
-> "연결하지 못했습니다" 오류가 표시될 수 있습니다. 이 경우 간단한 프록시 서버를 두거나
-> CORS 프록시를 경유하도록 `app.js`의 `HF_BASE` 값을 변경해 사용하세요.
+> **CORS note**: If the Higgsfield API does not allow direct browser calls (CORS),
+> you'll see a "Could not reach the Higgsfield API" error. In that case, run a small
+> proxy server and point `HF_BASE` in `app.js` at it.
 
-## 파일 구성
+## Project structure
 
 ```
-index.html   # 화면 구조
-styles.css   # 스타일
-verses.js    # 요절 데이터 (주제 4개 × 37구절, 개역한글)
-app.js       # 앱 로직 (암송 훈련, 기도문/이미지 생성, 진행 저장)
+index.html   # Page structure
+styles.css   # Styles
+verses.js    # Verse data (4 themes × 37 verses, NIV)
+app.js       # App logic (memorization, prayer/image generation, progress)
 ```
 
-## 요절 주제
+## Verse themes
 
-- ✝️ **복음** — 요 3:16, 롬 3:23, 롬 6:23, 롬 5:8, 요 14:6, 엡 2:8-9, 요 1:12, 고후 5:17, 롬 10:9-10, 행 4:12
-- 🕊️ **함께하시는 하나님** — 마 1:23, 마 28:20, 수 1:9, 사 41:10, 시 23:1, 시 23:4, 신 31:8, 시 46:1, 사 43:2
-- 🙏 **기도에 응답하시는 하나님** — 렘 33:3, 마 7:7-8, 빌 4:6-7, 요일 5:14, 시 50:15, 애 3:22-23, 고전 10:13, 요 15:7, 살전 5:24
-- 🌍 **세계복음화** — 마 28:19-20, 행 1:8, 막 16:15, 마 24:14, 롬 1:16, 사 6:8, 합 2:14, 계 7:9, 시 96:3
+- ✝️ **The Gospel** — John 3:16, Rom 3:23, Rom 6:23, Rom 5:8, John 14:6, Eph 2:8-9, John 1:12, 2 Cor 5:17, Rom 10:9, Acts 4:12
+- 🕊️ **God With Us** — Matt 1:23, Matt 28:20, Josh 1:9, Isa 41:10, Ps 23:1, Ps 23:4, Deut 31:8, Ps 46:1, Isa 43:2
+- 🙏 **God Who Answers Prayer** — Jer 33:3, Matt 7:7-8, Phil 4:6-7, 1 John 5:14, Ps 50:15, Lam 3:22-23, 1 Cor 10:13, John 15:7, 1 Thess 5:24
+- 🌍 **World Evangelization** — Matt 28:19, Acts 1:8, Mark 16:15, Matt 24:14, Rom 1:16, Isa 6:8, Hab 2:14, Rev 7:9, Ps 96:3
 
-> "내가 주께 범죄치 아니하려 하여 주의 말씀을 내 마음에 두었나이다" (시편 119:11)
+> "I have hidden your word in my heart that I might not sin against you." (Psalm 119:11)
+
+---
+
+Scripture quotations taken from The Holy Bible, New International Version® NIV®.
+Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™ Used by permission. All rights reserved worldwide.

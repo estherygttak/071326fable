@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────
-   말씀의 씨앗 — 성경 요절 암송 앱
+   Seed of the Word — Scripture memory app
    ───────────────────────────────────────────── */
 :root {
   --bg: #f7f3ea;
@@ -11,8 +11,8 @@
   --line: #e3dbcc;
   --shadow: 0 2px 12px rgba(80, 60, 30, 0.08);
   --radius: 14px;
-  --serif: "Noto Serif KR", "Nanum Myeongjo", serif;
-  --sans: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  --serif: "Lora", Georgia, "Times New Roman", serif;
+  --sans: "Nunito Sans", "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,7 +35,7 @@ main {
   padding: 20px 16px 60px;
 }
 
-/* ── 헤더 ── */
+/* ── Header ── */
 .app-header {
   background: var(--card);
   border-bottom: 1px solid var(--line);
@@ -95,13 +95,13 @@ main {
   font-weight: 700;
 }
 
-/* ── 뷰 전환 ── */
+/* ── View switching ── */
 .view { display: none; }
 .view.active { display: block; animation: fadein 0.25s ease; }
 @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
 .hidden { display: none !important; }
 
-/* ── 공통 요소 ── */
+/* ── Shared elements ── */
 .section-title {
   font-family: var(--serif);
   font-size: 1.15rem;
@@ -165,7 +165,7 @@ main {
 }
 .back-link:hover { color: var(--accent); }
 
-/* ── 오늘의 말씀 ── */
+/* ── Today's verse ── */
 .today-card {
   margin-top: 18px;
   background: linear-gradient(160deg, #fffdf8 0%, #f4e9d8 100%);
@@ -222,7 +222,7 @@ main {
 }
 .progress-bar > div { height: 100%; border-radius: 3px; }
 
-/* ── 말씀 카드 목록 ── */
+/* ── Verse card list ── */
 .theme-chips {
   display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 16px;
 }
@@ -259,7 +259,7 @@ main {
 .verse-card .v-ref { font-size: 0.85rem; color: var(--ink-soft); font-weight: 500; }
 .verse-card .v-level { font-size: 0.8rem; }
 
-/* ── 암송 훈련 ── */
+/* ── Memorize ── */
 .mode-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
 
 .flashcard {
@@ -340,7 +340,7 @@ main {
   background: var(--accent-soft); color: var(--accent); font-weight: 700;
 }
 
-/* ── 기도문 ── */
+/* ── Prayer ── */
 .prayer-verse-preview {
   background: var(--card);
   border-left: 4px solid var(--accent);
@@ -368,7 +368,7 @@ main {
   word-break: keep-all;
 }
 
-/* ── 모달 ── */
+/* ── Modals ── */
 .modal-backdrop {
   position: fixed; inset: 0;
   background: rgba(40, 30, 15, 0.45);
@@ -408,7 +408,7 @@ main {
 .verse-detail-ref { margin-top: 12px; color: var(--ink-soft); }
 .verse-detail .row-actions { justify-content: center; }
 
-/* ── 푸터 ── */
+/* ── Footer ── */
 .app-footer {
   text-align: center;
   padding: 18px;
