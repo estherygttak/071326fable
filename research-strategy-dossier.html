@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research Strategy Dossier — Epigenetic Editing to Independent Investigator</title>
+<body>
+<style>
+  :root{
+    --paper:#f6f5f1;
+    --surface:#fffefb;
+    --ink:#15202b;
+    --muted:#5a6572;
+    --faint:#8b95a1;
+    --line:#e2ddd3;
+    --line-strong:#cdc6b8;
+    --teal:#0d7d82;
+    --teal-deep:#0a5f63;
+    --plum:#a43a6b;
+    --plum-deep:#822a53;
+    --amber:#b5791f;
+    --tint-teal:#e7f0ef;
+    --tint-plum:#f4e7ee;
+    --shadow:0 1px 2px rgba(21,32,43,.04),0 8px 28px -18px rgba(21,32,43,.28);
+    --measure:66ch;
+    --serif:"Iowan Old Style","Charter","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#0f1319;
+      --surface:#161c24;
+      --ink:#e8ecf1;
+      --muted:#9aa6b3;
+      --faint:#6b7683;
+      --line:#26303b;
+      --line-strong:#33404d;
+      --teal:#3fb6ba;
+      --teal-deep:#2b9a9e;
+      --plum:#e06a9d;
+      --plum-deep:#c9578a;
+      --amber:#d9a34a;
+      --tint-teal:#122a2b;
+      --tint-plum:#2a1620;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 34px -18px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#f6f5f1;--surface:#fffefb;--ink:#15202b;--muted:#5a6572;--faint:#8b95a1;
+    --line:#e2ddd3;--line-strong:#cdc6b8;--teal:#0d7d82;--teal-deep:#0a5f63;--plum:#a43a6b;
+    --plum-deep:#822a53;--amber:#b5791f;--tint-teal:#e7f0ef;--tint-plum:#f4e7ee;
+    --shadow:0 1px 2px rgba(21,32,43,.04),0 8px 28px -18px rgba(21,32,43,.28);
+  }
+  :root[data-theme="dark"]{
+    --paper:#0f1319;--surface:#161c24;--ink:#e8ecf1;--muted:#9aa6b3;--faint:#6b7683;
+    --line:#26303b;--line-strong:#33404d;--teal:#3fb6ba;--teal-deep:#2b9a9e;--plum:#e06a9d;
+    --plum-deep:#c9578a;--amber:#d9a34a;--tint-teal:#122a2b;--tint-plum:#2a1620;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 34px -18px rgba(0,0,0,.7);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+  .layout{display:grid;grid-template-columns:1fr;gap:0}
+  @media(min-width:940px){
+    .layout{grid-template-columns:220px minmax(0,1fr);gap:56px;align-items:start}
+  }
+
+  /* ---- eyebrow / labels ---- */
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);font-weight:600;
+  }
+  .plum .eyebrow{color:var(--plum)}
+
+  /* ---- hero ---- */
+  .hero{padding:clamp(56px,9vw,104px) 0 clamp(30px,5vw,52px);border-bottom:1px solid var(--line)}
+  .hero .kicker{font-family:var(--mono);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  .hero h1{
+    font-family:var(--serif);font-weight:600;line-height:1.04;
+    font-size:clamp(2.3rem,6vw,4rem);letter-spacing:-.015em;margin:.5em 0 .35em;
+    text-wrap:balance;max-width:20ch;
+  }
+  .hero h1 em{font-style:italic;color:var(--teal)}
+  .lede{font-size:clamp(1.05rem,2.3vw,1.3rem);color:var(--muted);max-width:60ch;line-height:1.55}
+  .lede strong{color:var(--ink);font-weight:600}
+  .thesis{
+    margin-top:34px;border-left:3px solid var(--plum);padding:6px 0 6px 22px;
+    font-family:var(--serif);font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.4;
+    max-width:44ch;font-style:italic;
+  }
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:34px;font-family:var(--mono);font-size:12.5px;color:var(--faint);letter-spacing:.03em}
+  .meta-row b{color:var(--muted);font-weight:600}
+
+  /* ---- sidebar nav ---- */
+  .side{position:sticky;top:0;align-self:start;display:none}
+  @media(min-width:940px){.side{display:block;padding-top:56px}}
+  .side nav{display:flex;flex-direction:column;gap:2px;border-left:1px solid var(--line)}
+  .side a{
+    text-decoration:none;color:var(--muted);font-size:13.5px;line-height:1.3;
+    padding:9px 0 9px 16px;margin-left:-1px;border-left:2px solid transparent;transition:color .15s,border-color .15s;
+    display:flex;gap:10px;align-items:baseline;
+  }
+  .side a:hover{color:var(--ink);border-left-color:var(--line-strong)}
+  .side a .n{font-family:var(--mono);font-size:11px;color:var(--faint)}
+  .side a.active{color:var(--teal);border-left-color:var(--teal);font-weight:600}
+  .side .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);padding:0 0 12px 16px}
+
+  /* ---- section base ---- */
+  main{padding-bottom:120px}
+  section{padding:clamp(46px,7vw,76px) 0;border-bottom:1px solid var(--line)}
+  section:last-child{border-bottom:0}
+  .sec-head{display:flex;gap:16px;align-items:baseline;margin-bottom:8px}
+  .sec-num{font-family:var(--mono);font-size:13px;color:var(--faint);font-weight:600;letter-spacing:.05em;flex:none}
+  h2{
+    font-family:var(--serif);font-weight:600;font-size:clamp(1.7rem,4vw,2.5rem);
+    line-height:1.1;letter-spacing:-.01em;margin:.15em 0 0;text-wrap:balance;max-width:22ch;
+  }
+  .sec-intro{color:var(--muted);max-width:var(--measure);margin:18px 0 6px;font-size:1.05rem}
+  h3{font-family:var(--serif);font-weight:600;font-size:1.3rem;letter-spacing:-.005em;margin:36px 0 6px;line-height:1.25}
+  h4{font-family:var(--sans);font-weight:700;font-size:.95rem;margin:24px 0 4px;letter-spacing:.005em}
+  p{max-width:var(--measure);margin:12px 0}
+  strong{font-weight:650}
+  a.inline{color:var(--teal-deep);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+  :root[data-theme="dark"] a.inline,@media(prefers-color-scheme:dark){a.inline{color:var(--teal)}}
+
+  /* ---- prose lists ---- */
+  ul.clean{list-style:none;padding:0;margin:14px 0;max-width:var(--measure)}
+  ul.clean li{position:relative;padding:5px 0 5px 22px;color:var(--ink)}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:14px;width:7px;height:7px;border-radius:50%;background:var(--teal);opacity:.8}
+  ul.clean.plum li::before{background:var(--plum)}
+
+  /* ---- gap matrix table ---- */
+  .table-scroll{overflow-x:auto;margin:26px 0;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+  thead th{
+    text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--faint);font-weight:600;padding:14px 18px;border-bottom:1px solid var(--line-strong);background:var(--paper);
+  }
+  tbody td{padding:15px 18px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+  tbody tr:last-child td{border-bottom:0}
+  td .crowded{color:var(--muted)}
+  td .open{color:var(--ink)}
+  .claim{font-weight:650;color:var(--plum)}
+  :root[data-theme="dark"] .claim{color:var(--plum)}
+
+  /* ---- tool checklist grid ---- */
+  .tools{display:grid;grid-template-columns:1fr;gap:14px;margin:26px 0}
+  @media(min-width:680px){.tools{grid-template-columns:1fr 1fr}}
+  .tool{
+    border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--surface);box-shadow:var(--shadow);
+  }
+  .tool h4{margin:0 0 4px;font-family:var(--serif);font-size:1.12rem;font-weight:600}
+  .tool p{margin:6px 0 0;font-size:14.5px;color:var(--muted);max-width:none}
+  .tool ul{list-style:none;padding:0;margin:12px 0 0}
+  .tool li{font-size:14px;padding:4px 0 4px 20px;position:relative;color:var(--ink)}
+  .tool li::before{content:"→";position:absolute;left:0;color:var(--teal);font-family:var(--mono);font-size:12px;top:5px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;font-weight:600;vertical-align:middle;margin-left:2px}
+  .badge.now{background:var(--tint-teal);color:var(--teal-deep)}
+  :root[data-theme="dark"] .badge.now{color:var(--teal)}
+  .badge.bench{background:var(--tint-plum);color:var(--plum-deep)}
+  :root[data-theme="dark"] .badge.bench{color:var(--plum)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:4px 0 0}
+
+  /* ---- adjacency cards ---- */
+  .cards{display:grid;grid-template-columns:1fr;gap:16px;margin:26px 0}
+  @media(min-width:680px){.cards{grid-template-columns:1fr 1fr}}
+  .card{
+    border:1px solid var(--line);border-radius:14px;padding:24px;background:var(--surface);box-shadow:var(--shadow);
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--plum);font-weight:600}
+  .card h4{font-family:var(--serif);font-size:1.2rem;font-weight:600;margin:0}
+  .card p{margin:0;font-size:14.5px;color:var(--muted);max-width:none}
+  .card .spark{margin-top:6px;padding-top:12px;border-top:1px dashed var(--line-strong);font-size:14px}
+  .card .spark b{color:var(--teal-deep);font-weight:650}
+  :root[data-theme="dark"] .card .spark b{color:var(--teal)}
+
+  /* ---- pivot directions ---- */
+  .pivot{border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow);padding:26px 28px;margin:20px 0}
+  .pivot .lbl{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600}
+  .pivot h3{margin:6px 0 4px;color:var(--teal-deep)}
+  :root[data-theme="dark"] .pivot h3{color:var(--teal)}
+  .pivot p{max-width:64ch}
+  .pivot .become{font-family:var(--serif);font-style:italic;font-size:1.12rem;color:var(--ink);margin:2px 0 10px}
+
+  /* ---- aims ---- */
+  .aims{display:grid;grid-template-columns:1fr;gap:0;margin:22px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}
+  .aim{padding:22px 24px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start}
+  .aim:last-child{border-bottom:0}
+  .aim .risk{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;writing-mode:horizontal-tb;white-space:nowrap;padding:4px 10px;border-radius:100px;align-self:start;margin-top:3px}
+  .risk.low{background:var(--tint-teal);color:var(--teal-deep)}
+  .risk.med{background:#f3ecda;color:var(--amber)}
+  .risk.bold{background:var(--tint-plum);color:var(--plum-deep)}
+  :root[data-theme="dark"] .risk.low{color:var(--teal)}
+  :root[data-theme="dark"] .risk.med{background:#2c2415;color:var(--amber)}
+  :root[data-theme="dark"] .risk.bold{color:var(--plum)}
+  .aim h4{margin:0 0 4px;font-family:var(--serif);font-size:1.12rem;font-weight:600}
+  .aim p{margin:0;font-size:14.5px;color:var(--muted);max-width:none}
+
+  /* ---- timeline ---- */
+  .timeline{margin:28px 0 0;position:relative}
+  .phase{display:grid;grid-template-columns:auto 1fr;gap:24px;padding:0 0 30px;position:relative}
+  .phase .when{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--teal);white-space:nowrap;text-align:right;padding-top:2px;letter-spacing:.02em}
+  .phase .body{border-left:2px solid var(--line-strong);padding:0 0 6px 26px;position:relative}
+  .phase:last-child .body{border-left-color:transparent}
+  .phase .dot{position:absolute;left:-8px;top:4px;width:13px;height:13px;border-radius:50%;background:var(--paper);border:2.5px solid var(--teal)}
+  .phase:nth-child(2) .dot{border-color:var(--teal)}
+  .phase h4{margin:0 0 6px;font-family:var(--serif);font-size:1.18rem;font-weight:600}
+  .phase ul{list-style:none;padding:0;margin:8px 0 0;max-width:60ch}
+  .phase li{position:relative;padding:4px 0 4px 20px;font-size:15px;color:var(--ink)}
+  .phase li::before{content:"";position:absolute;left:3px;top:13px;width:6px;height:6px;border-radius:50%;background:var(--plum);opacity:.75}
+  .phase li b{font-weight:650}
+  @media(max-width:560px){
+    .phase{grid-template-columns:1fr;gap:6px}
+    .phase .when{text-align:left}
+    .phase .body{border-left:none;padding-left:0}
+    .phase .dot{display:none}
+  }
+
+  /* ---- callout ---- */
+  .callout{background:var(--tint-teal);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:26px 0;max-width:var(--measure)}
+  .callout p{margin:0;max-width:none;font-size:15px}
+  .callout .h{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-deep);font-weight:600;display:block;margin-bottom:6px}
+  :root[data-theme="dark"] .callout .h{color:var(--teal)}
+
+  /* ---- footer / sources ---- */
+  footer{padding:48px 0 90px;color:var(--muted)}
+  footer .eyebrow{color:var(--faint)}
+  footer h3{font-family:var(--serif);margin:6px 0 14px;color:var(--ink)}
+  .src{display:grid;grid-template-columns:1fr;gap:6px;max-width:var(--measure);font-size:13.5px}
+  @media(min-width:680px){.src{grid-template-columns:1fr 1fr}}
+  .src a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line);padding:5px 0;display:block}
+  .src a:hover{color:var(--teal);border-color:var(--teal)}
+  .disc{font-size:12.5px;color:var(--faint);max-width:var(--measure);margin-top:26px;line-height:1.55}
+
+  .fade{opacity:0;transform:translateY(10px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+  @media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;animation:none}}
+  @keyframes rise{to{opacity:1;transform:none}}
+</style>
+
+<div class="wrap">
+  <header class="hero fade">
+    <div class="kicker">Personal Research Strategy Dossier · July 2026</div>
+    <h1>From epigenetic editor to <em>independent investigator</em>.</h1>
+    <p class="lede">A gap analysis and 12-month plan for a postdoc whose scarce skill — <strong>writing</strong> the epigenome, not just reading it — is exactly the tool the funded frontier in aging, transcriptional regulation, and cancer is now reaching for.</p>
+    <div class="thesis">Don't compete where you're a newcomer. Bring your rare tool to the places that are missing it.</div>
+    <div class="meta-row">
+      <span><b>Background</b> &nbsp;Epigenetic editing (postdoc)</span>
+      <span><b>Targets</b> &nbsp;Aging · Transcriptional regulation · Cancer</span>
+      <span><b>Goal</b> &nbsp;Faculty application</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side">
+      <nav>
+        <span class="kicker">Contents</span>
+        <a href="#gaps"><span class="n">01</span> Where the gaps are</a>
+        <a href="#tools"><span class="n">02</span> Tools to learn</a>
+        <a href="#adjacent"><span class="n">03</span> Unfamiliar sparks</a>
+        <a href="#pivot"><span class="n">04</span> Directions to explore</a>
+        <a href="#proposal"><span class="n">05</span> Into a proposal</a>
+        <a href="#plan"><span class="n">06</span> The next 12 months</a>
+      </nav>
+    </aside>
+
+    <main>
+      <!-- 01 -->
+      <section id="gaps">
+        <div class="sec-head"><span class="sec-num">01</span><div><span class="eyebrow">Reading the funded landscape</span><h2>What's getting funded — and where the white space is</h2></div></div>
+        <p class="sec-intro">Across NIH RePORTER, longevity biotech, and the 2024–2025 literature, four currents are clearly funded. Crowded currents are where you'd be a latecomer. The gaps between them are where your editing skill is the missing ingredient.</p>
+
+        <h3>The four funded currents</h3>
+        <ul class="clean">
+          <li><strong>Epigenome editing is going therapeutic.</strong> Money has moved from "can we edit a mark?" to delivery and durability: transient RNP and lipid-nanoparticle-delivered editors, compact editors (the size of dCas9 fusions is a real bottleneck), durable/heritable silencing (CRISPRoff-style), and in-vivo editing of solid tumors.</li>
+          <li><strong>Aging is dominated by reprogramming.</strong> Partial "Yamanaka" reprogramming, small-molecule cocktails that reset the epigenetic clock, senescence reprogramming, and 3D-genome changes in aging tissue — heavily funded by Altos, NewLimit, Retro, and grantmakers like Hevolution and Impetus.</li>
+          <li><strong>Cancer epigenetics is merging with targeted protein degradation.</strong> HDAC-PROTACs and degraders of EZH2/BRD4, epigenetic "priming" to break immunotherapy resistance, and a push to drug the previously "undruggable" transcription factors.</li>
+          <li><strong>Transcriptional regulation is being read at single-cell and spatial resolution.</strong> 10x Multiome (ATAC+RNA), spatial epigenome–transcriptome co-profiling, single-cell multi-epigenome integration, and DNA "foundation models" (Enformer, Evo, Nucleotide Transformer) that predict regulatory consequences from sequence.</li>
+        </ul>
+
+        <h3>The gaps you can actually claim</h3>
+        <p class="sec-intro">Each row pairs a crowded, well-funded activity with the adjacent under-exploited angle where <span class="claim">your editing skill is the differentiator</span>.</p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th style="width:30%">Where the crowd is</th><th style="width:38%">The gap next to it</th><th style="width:32%">Your claim</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="crowded">Whole-cell reprogramming resets aging with Yamanaka factors — powerful but blunt and tumor-risky.</td>
+                <td class="open">Almost no one uses precise epigenome <em>editing</em> to reverse specific age-associated methylation/chromatin changes at defined loci.</td>
+                <td class="claim">Targeted epigenetic rejuvenation — surgical, not sledgehammer.</td>
+              </tr>
+              <tr>
+                <td class="crowded">Editing outcomes are measured in bulk populations.</td>
+                <td class="open">Per-cell heterogeneity, off-target transcriptional ripple, and durability are rarely read at single-cell / spatial resolution.</td>
+                <td class="claim">Editing + multiome as a combined readout platform.</td>
+              </tr>
+              <tr>
+                <td class="crowded">PROTACs degrade the oncogenic transcription factor protein.</td>
+                <td class="open">Fewer groups silence the <em>epigenetic state</em> (super-enhancers, chromatin loops) that keeps the oncogenic program addicted — and it may resist less.</td>
+                <td class="claim">Epigenetic control of undruggable cancer programs.</td>
+              </tr>
+              <tr>
+                <td class="crowded">Editors are engineered for on-target efficiency.</td>
+                <td class="open">Durability and reversibility of an installed mark is a named, unsolved bottleneck.</td>
+                <td class="claim">Engineering durable, tunable, reversible edits.</td>
+              </tr>
+              <tr>
+                <td class="crowded">Foundation models predict regulation; wet labs edit — separately.</td>
+                <td class="open">Very few close the loop: model nominates loci → you edit → data retrains the model.</td>
+                <td class="claim">Model-guided epigenome editing (dry + wet).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout"><span class="h">The through-line</span><p>Every gap above is the same move: the field has a powerful <em>reading</em> or <em>whole-cell</em> tool and is missing a <em>precise writing</em> tool at specific loci. That precise writing tool is you.</p></div>
+      </section>
+
+      <!-- 02 -->
+      <section id="tools">
+        <div class="sec-head"><span class="sec-num">02</span><div><span class="eyebrow">Filling the gap</span><h2>The tools and methods to learn</h2></div></div>
+        <p class="sec-intro">You already own the editing bench skills. What signals independence — and lets you occupy the gaps above — is pairing them with single-cell/computational readout and translational delivery. The good news: the highest-leverage ones are learnable right now, at a laptop, with public data.</p>
+        <div class="legend">
+          <span><span class="badge now">learn now</span> no wet lab needed — public data + laptop</span>
+          <span><span class="badge bench">needs bench</span> requires lab access or a collaboration</span>
+        </div>
+
+        <div class="tools">
+          <div class="tool">
+            <h4>Single-cell &amp; spatial genomics <span class="badge now">learn now</span></h4>
+            <p>The readout layer every gap needs. You can learn the analysis from public datasets before you ever run the assay.</p>
+            <ul>
+              <li>scRNA-seq, scATAC-seq, 10x Multiome (ATAC+RNA)</li>
+              <li>CUT&amp;RUN / CUT&amp;Tag <span class="badge bench">needs bench</span></li>
+              <li>Spatial: Stereo-seq, Slide-seq, spatial-ATAC</li>
+            </ul>
+          </div>
+          <div class="tool">
+            <h4>Computation &amp; ML <span class="badge now">learn now</span></h4>
+            <p>The single biggest credibility multiplier for a wet-lab editor. Reviewers read "can analyze own data" as independence.</p>
+            <ul>
+              <li>Python + scanpy; R + Seurat / Signac / ArchR</li>
+              <li>Methylation analysis: bisulfite/EM-seq, nanopore long-read methylation</li>
+              <li>Using DNA foundation models (Enformer, Evo, Nucleotide Transformer)</li>
+            </ul>
+          </div>
+          <div class="tool">
+            <h4>Delivery &amp; translation <span class="badge bench">needs bench</span></h4>
+            <p>Signals fundability. NIH and foundations reward a credible path to therapy.</p>
+            <ul>
+              <li>Lipid nanoparticle (LNP) formulation</li>
+              <li>AAV and RNP delivery strategies</li>
+              <li>In-vivo delivery to tumor / tissue</li>
+            </ul>
+          </div>
+          <div class="tool">
+            <h4>Editor engineering <span class="badge bench">needs bench</span></h4>
+            <p>Extends your core strength toward the durability and compactness the field is stuck on.</p>
+            <ul>
+              <li>Compact dCas / smaller effector fusions</li>
+              <li>Durable silencing (CRISPRoff-type systems)</li>
+              <li>Base / prime editing adjacency</li>
+            </ul>
+          </div>
+          <div class="tool">
+            <h4>Aging quantification <span class="badge now">learn now</span></h4>
+            <p>Gives you the yardstick to prove a "rejuvenation" edit actually worked.</p>
+            <ul>
+              <li>Epigenetic clock analysis (Horvath / newer clocks)</li>
+              <li>Senescence assays &amp; SASP readouts <span class="badge bench">needs bench</span></li>
+              <li>Partial-reprogramming protocols <span class="badge bench">needs bench</span></li>
+            </ul>
+          </div>
+          <div class="tool">
+            <h4>Cancer models <span class="badge bench">needs bench</span></h4>
+            <p>The disease context that makes cancer aims concrete and translatable.</p>
+            <ul>
+              <li>Tumor organoids / patient-derived models</li>
+              <li>Syngeneic &amp; PDX in-vivo models</li>
+              <li>Immune-oncology co-culture readouts</li>
+            </ul>
+          </div>
+        </div>
+        <p><strong>Priority order while unemployed:</strong> computation and single-cell/aging analysis first (they need no lab and directly generate preliminary data), then negotiate bench access for delivery and editor engineering through a collaboration or bridge position.</p>
+      </section>
+
+      <!-- 03 -->
+      <section id="adjacent" class="plum">
+        <div class="sec-head"><span class="sec-num">03</span><div><span class="eyebrow">Cross-pollination</span><h2>Unfamiliar areas that can spark new insight</h2></div></div>
+        <p class="sec-intro">These are close enough to your world that your skills transfer, but far enough that they're not on your daily radar — the productive distance where creative ideas come from. Each card names the spark it could give <em>your</em> work.</p>
+        <div class="cards">
+          <div class="card">
+            <span class="tag">Parallel logic</span>
+            <h4>Epitranscriptomics</h4>
+            <p>Chemical marks on RNA (m6A, m5C, A-to-I) that tune stability, translation, and immune signaling — a dynamic regulatory layer running parallel to DNA/chromatin, and huge in cancer immunity and therapy resistance.</p>
+            <div class="spark"><b>Spark:</b> your whole "editing" framework transfers to RNA — programmable m6A writers/erasers are nascent and largely unclaimed.</div>
+          </div>
+          <div class="card">
+            <span class="tag">Physical view</span>
+            <h4>Biomolecular condensates</h4>
+            <p>Transcription factories, heterochromatin, and super-enhancers organize by liquid–liquid phase separation. Chromatin isn't just marks on a string — it's a phase-behaving material.</p>
+            <div class="spark"><b>Spark:</b> reframes what an edit <em>does</em> — you may be tuning condensate formation, not just a single mark.</div>
+          </div>
+          <div class="card">
+            <span class="tag">Prediction</span>
+            <h4>Genomic foundation models</h4>
+            <p>Self-supervised models over DNA sequence (Enformer, Evo, HyenaDNA) that predict expression, enhancer activity, and variant effects across long ranges.</p>
+            <div class="spark"><b>Spark:</b> let a model nominate which loci to edit and forecast the transcriptional consequence — a dry/wet loop few editors run.</div>
+          </div>
+          <div class="card">
+            <span class="tag">Mechanics</span>
+            <h4>Nuclear mechanobiology</h4>
+            <p>Physical forces on the nucleus reshape chromatin architecture; stiffness and confinement drive gene programs in aging tissue and metastasis.</p>
+            <div class="spark"><b>Spark:</b> a mechanistic axis linking your aging and cancer interests — force as an upstream cause of the epigenetic state.</div>
+          </div>
+          <div class="card">
+            <span class="tag">Context</span>
+            <h4>Spatial biology</h4>
+            <p>Where a cell sits in a tissue shapes its epigenetic state; niche and neighborhood carry regulatory information bulk assays erase.</p>
+            <div class="spark"><b>Spark:</b> ask not just <em>whether</em> an edit worked, but <em>where</em> — spatial context of editing outcomes.</div>
+          </div>
+          <div class="card">
+            <span class="tag">Quantification</span>
+            <h4>Systems longevity &amp; aging clocks</h4>
+            <p>A quantitative framework that turns "younger" into a measurable number, and treats aging as a programmable, reversible variable.</p>
+            <div class="spark"><b>Spark:</b> gives every rejuvenation edit a hard, fundable success metric reviewers trust.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section id="pivot">
+        <div class="sec-head"><span class="sec-num">04</span><div><span class="eyebrow">Branching out</span><h2>Directions to explore beyond epigenetic editing</h2></div></div>
+        <p class="sec-intro">You want to use your tools somewhere new, but don't yet know where. Here are three concrete identities — each keeps your editing DNA but points it at a different destination — plus one stretch bet. Pick the one whose daily work you'd most want to do for a decade.</p>
+
+        <div class="pivot">
+          <span class="lbl">Direction A · Aging</span>
+          <h3>Programmable epigenetic rejuvenation</h3>
+          <p class="become">"I'm the person who reverses aging one locus at a time, instead of resetting the whole cell."</p>
+          <p>Use epigenome editing to precisely revert age-associated methylation/chromatin marks and test the effect on an aging clock — the surgical alternative to blunt Yamanaka reprogramming. Directly extends your skill; the aging field is hungry for precision and well-funded.</p>
+        </div>
+        <div class="pivot">
+          <span class="lbl">Direction B · Cancer × Transcription</span>
+          <h3>Epigenetic control of undruggable programs</h3>
+          <p class="become">"I silence the chromatin state that keeps a cancer addicted to its master transcription factor."</p>
+          <p>Where PROTACs degrade the oncogenic TF, you dismantle the super-enhancer/chromatin loop sustaining its program — potentially with less acquired resistance. Unites your cancer and transcriptional-regulation interests in one story.</p>
+        </div>
+        <div class="pivot">
+          <span class="lbl">Direction C · Computation</span>
+          <h3>Model-guided epigenome therapeutics</h3>
+          <p class="become">"I design edits in silico, then prove them at the bench."</p>
+          <p>Couple DNA foundation models to your editing platform: the model proposes target loci and predicts outcomes, your data retrains it. This is the most transferable-while-unemployed path — you can start the computational half today with zero lab access.</p>
+        </div>
+        <div class="pivot">
+          <span class="lbl">Stretch bet · New layer</span>
+          <h3>Epitranscriptomic editing</h3>
+          <p class="become">"I brought programmable editing to RNA."</p>
+          <p>Extend your framework from DNA/chromatin to programmable RNA modifications (m6A). Higher risk, but the field is young and your conceptual toolkit maps almost one-to-one — a genuine chance to define a niche rather than join one.</p>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section id="proposal">
+        <div class="sec-head"><span class="sec-num">05</span><div><span class="eyebrow">Packaging for hiring &amp; funding</span><h2>Turning this into a faculty proposal</h2></div></div>
+        <p class="sec-intro">Committees fund a <em>vision</em>, not a list of experiments. The winning move is to brand yourself around one question at an intersection you can defend, then structure three aims that climb from safe to bold.</p>
+
+        <h3>1 · Write your one-sentence lab thesis</h3>
+        <p>Everything hangs off this. A working example, using Directions A + B above:</p>
+        <div class="callout"><span class="h">Lab thesis (example)</span><p><em>"My lab uses precision epigenome editing to reverse the transcriptional programs that drive aging and cancer — turning cell state into something we can rewrite, measure, and control."</em></p></div>
+        <p>It names a scarce method (editing), two disease targets, and a measurable claim (cell state as a controllable variable). That's independent, compelling, and fundable in one line.</p>
+
+        <h3>2 · Structure three aims that climb in risk</h3>
+        <p>The classic, fundable shape: Aim 1 is nearly de-risked by your own hands; Aim 2 adds the new tool you're learning; Aim 3 is the bold idea that makes the vision exciting. Reviewers want to see growth beyond your postdoc PI's program.</p>
+        <div class="aims">
+          <div class="aim"><span class="risk low">Aim 1 · Low risk</span><div><h4>Build the precision editing + readout platform</h4><p>Establish targeted epigenetic editing at defined disease loci with single-cell/multiome readout of durability and off-target ripple. Leans on your existing strength — preliminary data is achievable, even computationally.</p></div></div>
+          <div class="aim"><span class="risk med">Aim 2 · Medium risk</span><div><h4>Apply it to your chosen disease axis</h4><p>Reverse an age-associated program (measured on a clock) or dismantle an oncogenic super-enhancer. Adds the aging/cancer tool you're now learning; shows range beyond method development.</p></div></div>
+          <div class="aim"><span class="risk bold">Aim 3 · Bold</span><div><h4>The creative leap</h4><p>Close the model-guided loop, engineer durable/reversible edits, or extend to RNA. This is the aim that says "this person will start a field," not "finish a project."</p></div></div>
+        </div>
+
+        <h3>3 · Match it to the right money</h3>
+        <ul class="clean plum">
+          <li><strong>K99/R00 (Pathway to Independence)</strong> — the ideal bridge <em>if you're still within the eligibility window</em> (generally ≤4 years of postdoc training; check your date carefully, as gaps can matter). It funds the exact transition you're in.</li>
+          <li><strong>NIH R01 / DP2 New Innovator</strong> — DP2 rewards precisely the bold, single-vision proposal above and doesn't require preliminary data of the usual kind.</li>
+          <li><strong>Foundations by target:</strong> Impetus Grants &amp; Hevolution (aging), Damon Runyon / ACS / V Foundation (cancer), Chan Zuckerberg Initiative and Astera (tool-building) — several are fast and don't require a faculty appointment.</li>
+        </ul>
+        <div class="callout"><span class="h">What reviewers are actually checking</span><p>Independence from your postdoc mentor · a fundable 5–10 year arc (not just your next two papers) · preliminary data that shows feasibility — <strong>and this can be computational reanalysis of public data</strong>, which you can generate right now.</p></div>
+      </section>
+
+      <!-- 06 -->
+      <section id="plan">
+        <div class="sec-head"><span class="sec-num">06</span><div><span class="eyebrow">Making the gap productive</span><h2>What to do with this unemployment window</h2></div></div>
+        <p class="sec-intro">Treat this not as a pause but as an unsupervised sprint — the one stretch of your career with no PI, no teaching, no service. The goal by the end: papers out, a new computational skill demonstrated, a branded vision written, and applications submitted. Here's an ordered plan.</p>
+
+        <div class="timeline">
+          <div class="phase">
+            <div class="when">NOW → 1 mo</div>
+            <div class="body"><div class="dot"></div>
+              <h4>Inventory &amp; publish</h4>
+              <ul>
+                <li><b>Get postdoc work out.</b> Preprint or submit every finishable manuscript — this is the single highest-ROI thing you can do for a faculty application.</li>
+                <li><b>Draft your one-sentence thesis</b> (Section 5) and start the research statement around it.</li>
+                <li><b>Set up a compute environment</b> — Python, scanpy, R/Signac — so the next phase has no friction.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="when">1 → 3 mo</div>
+            <div class="body"><div class="dot"></div>
+              <h4>Upskill on public data</h4>
+              <ul>
+                <li><b>Reanalyze public datasets</b> from GEO, ENCODE, and single-cell atlases in your target area — this simultaneously teaches you single-cell/methylation analysis <em>and</em> generates real preliminary data.</li>
+                <li><b>Take one focused course</b> (single-cell analysis or ML for genomics) and finish it — a credential and a skill.</li>
+                <li><b>Pick your Direction</b> (Section 4) so the rest of the window points one way.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="when">3 → 6 mo</div>
+            <div class="body"><div class="dot"></div>
+              <h4>Publish visibility &amp; preliminary data</h4>
+              <ul>
+                <li><b>Write a review or perspective</b> at your chosen intersection. It brands you, builds visibility, and legitimately establishes you in an adjacent area — a rare triple win with no lab required.</li>
+                <li><b>Turn the reanalysis into a preprint</b> — computational, first/last author, yours.</li>
+                <li><b>Draft the three specific aims</b> and circulate them for feedback.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="when">6 → 12 mo</div>
+            <div class="body"><div class="dot"></div>
+              <h4>Network, bridge &amp; apply</h4>
+              <ul>
+                <li><b>Network deliberately:</b> conferences, seminars, cold emails to PIs at target departments, and an active presence on X/Bluesky in your niche.</li>
+                <li><b>Line up a bridge if needed:</b> staff scientist, visiting scientist, or a formal collaboration that gives you bench access and keeps momentum.</li>
+                <li><b>Submit</b> in the fall faculty cycle, and apply for a career-transition (K99) or foundation grant in parallel.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:34px">
+          <span class="h">Two things to protect</span>
+          <p><strong>A bench collaboration.</strong> Even one wet-lab tie-in keeps your hands current and lets Aim 1 generate non-computational data. <strong>And your footing.</strong> An unemployment gap is common and readable as a productive transition when the output is visible — papers, a preprint, a review, a clear vision. Fill the window with evidence, and the gap tells a story of independence rather than absence.</p>
+        </div>
+      </section>
+
+      <footer>
+        <div class="eyebrow">Grounded in</div>
+        <h3>Sources &amp; further reading</h3>
+        <div class="src">
+          <a href="https://www.cell.com/molecular-therapy-family/molecular-therapy/fulltext/S1525-0016(25)00721-X">Epigenome editing–based treatment: progress &amp; challenges — Molecular Therapy (2025)</a>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12381050/">Transient delivery of CRISPR epigenome-editor RNPs — PMC (2025)</a>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12492661/">Reprogramming senescence &amp; aging clocks for cancer immunotherapy — PMC (2025)</a>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12035601/">Age reprogramming: innovations &amp; ethics — PMC (2025)</a>
+          <a href="https://www.tandfonline.com/doi/full/10.1080/17568919.2025.2533113">HDAC-PROTACs: epigenetic therapy meets targeted degradation (2025)</a>
+          <a href="https://www.nature.com/articles/s41568-025-00817-8">Targeted protein degradation for cancer therapy — Nat Rev Cancer (2025)</a>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12826720/">Recent advances in epigenomics methodologies — PMC (2025)</a>
+          <a href="https://www.nature.com/articles/s41586-023-05795-1">Spatial epigenome–transcriptome co-profiling — Nature</a>
+          <a href="https://academic.oup.com/nsr/article/doi/10.1093/nsr/nwae355/7821662">Foundation model for transcriptional regulation analysis — Natl Sci Rev</a>
+          <a href="https://www.cell.com/cancer-cell/abstract/S1535-6108(25)00535-5">Epitranscriptomic control of cancer hallmarks — Cancer Cell (2025)</a>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9358883/">The postdoctoral blueprint: the faculty application — PMC</a>
+          <a href="https://arjun-raj-lab.gitbook.io/arjun-rajs-tools-for-science/applying-for-faculty-positions/thoughts-on-applying-for-faculty-positions">Thoughts on applying for faculty positions — Arjun Raj Lab</a>
+        </div>
+        <p class="disc">Prepared as a strategic starting point, not a prescription. Funding-program eligibility (especially K99/R00 timing) changes and depends on your exact dates — verify current rules before you plan around them. The strongest version of this document is the one you revise as you talk to PIs in your target departments.</p>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var links=[].slice.call(document.querySelectorAll('.side a'));
+    var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+    function onScroll(){
+      var y=window.scrollY+140,cur=0;
+      for(var i=0;i<secs.length;i++){if(secs[i]&&secs[i].offsetTop<=y)cur=i}
+      links.forEach(function(a,i){a.classList.toggle('active',i===cur)});
+    }
+    window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  })();
+</script>
+</body>
+</html>
