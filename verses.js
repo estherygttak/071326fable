@@ -154,6 +154,18 @@ const VERSES = [
     ref: "Isaiah 43:2",
     text: "When you pass through the waters, I will be with you; and when you pass through the rivers, they will not sweep over you. When you walk through the fire, you will not be burned; the flames will not set you ablaze.",
   },
+  {
+    id: "luke-12-5",
+    theme: "immanuel",
+    ref: "Luke 12:5",
+    text: "But I will show you whom you should fear: Fear him who, after your body has been killed, has authority to throw you into hell. Yes, I tell you, fear him.",
+  },
+  {
+    id: "luke-12-6-7",
+    theme: "immanuel",
+    ref: "Luke 12:6-7",
+    text: "Are not five sparrows sold for two pennies? Yet not one of them is forgotten by God. Indeed, the very hairs of your head are all numbered. Don't be afraid; you are worth more than many sparrows.",
+  },
 
   // ─────────────── God Who Answers Prayer ───────────────
   {
