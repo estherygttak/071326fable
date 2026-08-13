@@ -222,6 +222,12 @@ const VERSES = [
     ref: "1 Thessalonians 5:24",
     text: "The one who calls you is faithful, and he will do it.",
   },
+  {
+    id: "num-23-19",
+    theme: "prayer",
+    ref: "Numbers 23:19",
+    text: "God is not human, that he should lie, not a human being, that he should change his mind. Does he speak and then not act? Does he promise and not fulfill?",
+  },
 
   // ─────────────── World Evangelization ───────────────
   {

@@ -10,7 +10,7 @@ Scripture text is from the **New International Version (NIV)**.
 | Feature | Description |
 |---|---|
 | Today's Verse | A different verse for each day of the year |
-| Verse Cards | Browse 39 verses across the 4 themes |
+| Verse Cards | Browse 40 verses across the 4 themes |
 | Memorize | Flashcard · Fill in the Blanks (3 levels) · Type It Out (auto-graded) |
 | Progress | Each verse grows through Seed → Sprout → Growing → Fruit stages, saved in your browser |
 | Prayer | Generates a prayer that meditates on the selected verse, via the Claude API |
@@ -67,7 +67,7 @@ Result links expire after about 1 hour, so download the image if you want to kee
 ```
 index.html   # Page structure
 styles.css   # Styles
-verses.js    # Verse data (4 themes × 39 verses, NIV)
+verses.js    # Verse data (4 themes × 40 verses, NIV)
 app.js       # App logic (memorization, prayer/image generation, progress)
 ```
 
@@ -75,7 +75,7 @@ app.js       # App logic (memorization, prayer/image generation, progress)
 
 - ✝️ **The Gospel** — John 3:16, Rom 3:23, Rom 6:23, Rom 5:8, John 14:6, Eph 2:8-9, John 1:12, 2 Cor 5:17, Rom 10:9, Acts 4:12
 - 🕊️ **God With Us** — Matt 1:23, Matt 28:20, Josh 1:9, Isa 41:10, Ps 23:1, Ps 23:4, Deut 31:8, Ps 46:1, Isa 43:2, Luke 12:5, Luke 12:6-7
-- 🙏 **God Who Answers Prayer** — Jer 33:3, Matt 7:7-8, Phil 4:6-7, 1 John 5:14, Ps 50:15, Lam 3:22-23, 1 Cor 10:13, John 15:7, 1 Thess 5:24
+- 🙏 **God Who Answers Prayer** — Jer 33:3, Matt 7:7-8, Phil 4:6-7, 1 John 5:14, Ps 50:15, Lam 3:22-23, 1 Cor 10:13, John 15:7, 1 Thess 5:24, Num 23:19
 - 🌍 **World Evangelization** — Matt 28:19, Acts 1:8, Mark 16:15, Matt 24:14, Rom 1:16, Isa 6:8, Hab 2:14, Rev 7:9, Ps 96:3
 
 > "I have hidden your word in my heart that I might not sin against you." (Psalm 119:11)
